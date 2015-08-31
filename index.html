@@ -1,18 +1,82 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<script src="js/mail-generator.js"></script>
-		<link href="css/style.css" rel="stylesheet" media="screen">
-    <script>
-      window.onload = function(){
-        // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
-        // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
-        
-      };
-    </script>
-	</head>
-	<body>
-		<div class="container" id="main">
-			Build Me!
-		</div>
-	</body>
+  <head>
+    <script src="mail-generator.js"></script>
+    <link href="style.css" rel="stylesheet" media="screen">
+             <script>
+                  window.onload = function(){
+                      var emailAccess = document.getElementById("emails");
+                      var initNum = geemails.length;
+                      var i = 0;
+                      var current = {};
+                      var initHead = "<tr> <th>Date</th> <th>Sender</th> <th>Subject</th> </tr>";
+                      var initMail = "";
+
+                      
+    
+                      for (; i < initNum; i++) {
+                          current = window.geemails[i];
+                          
+                          initMail += ("<td>" + current.date.toString() + "</td> <td>" + current.sender + "</td> <td>" + current.subject + "</td> ");
+                          if((i + 1) !== initNum) {
+                              initMail += "</tr> <tr>"; 
+                          }
+                          document.getElementById("temp").innerHTML = "Inbox " + (i + 1);
+                          
+
+}
+                      document.getElementById("emails").addEventListener("click", showBody);
+
+function showBody() {
+    document.getElementById("body1").innerHTML = current.body.toString();
+    document.getElementById('date').innerHTML = current.date.toString();
+    document.getElementById("sender").innerHTML = current.sender.toString();
+    document.getElementById("subject").innerHTML = current.subject.toString();
+}
+                      if (initNum > 0) {
+                          initMail += "</tr>";
+
+}
+                      emailAccess.innerHTML = initHead + initMail;
+                      i--;
+                      setInterval(function(){
+                                                 current = generateMessage(Date());
+                                                 initMail = ("<tr> <td>" + current.date.toString() + "</td> <td>" + current.sender + "</td> <td>" + current.subject + "</td> </tr>") + initMail;
+                                                 i++;
+                                                 initMail = initMail.slice(0, initMail.lastIndexOf("<tr>"));
+                                                 document.getElementById("temp").innerHTML = "Inbox " + (i + 1);
+                                                 emailAccess.innerHTML = initHead + initMail;
+                                            }, 10000);
+              };
+
+            </script>
+  </head>
+  <body>
+    <div class="container" id="main" >
+                    <h1>Gee Mail</h1>
+                    <div style = "float:left; background-color:grey; padding: 5px" id = "temp">Inbox</div>
+                    <table border = "1" style = "border-collapse: collapse; float:left" width = "90%" id = "emails" onclick="showBody()">
+                        <tr>
+                            <th>Date</th>
+                            <th>Sender</th>
+                            <th>Subject</th>
+                    </table>
+                      <table border = "1" style = "border-collapse: collapse; float:left" width = "90%" id="body" >
+                   <tr>
+                     <td id="date"> Date:</td>
+                        </tr>
+                        <tr>
+                     <td id="sender"> Sender:</td>
+                        </tr>
+                        <tr>
+                          <td id="subject"> Subject:<td>
+                        </tr>
+                        <tr>
+                          <td id="body1"></td>
+                        </tr>
+                        
+                    </table>                    
+                    </div>
+    </div>
+  </body>
 </html>
